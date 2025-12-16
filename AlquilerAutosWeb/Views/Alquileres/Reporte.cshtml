@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<dynamic>
+
+<a asp-action="ReportePDF" class="btn btn-danger mb-3">
+    Exportar a PDF
+</a>
+
+
+<h2>Reporte de Alquileres</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Cliente</th>
+            <th>Placa</th>
+            <th>Auto</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Total</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Cliente</td>
+                <td>@a.Placa</td>
+                <td>@a.Auto</td>
+                <td>@a.FechaInicio.ToShortDateString()</td>
+                <td>@a.FechaFin.ToShortDateString()</td>
+                <td>S/. @a.Total</td>
+                <td>@a.Estado</td>
+            </tr>
+        }
+    </tbody>
+</table>

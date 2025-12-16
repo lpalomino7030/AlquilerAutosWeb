@@ -1,0 +1,53 @@
+﻿@model AlquilerAutosWeb.Models.Alquiler
+
+@{
+    Layout = "_LayoutSistema";
+}
+
+
+<h2>Registrar Alquiler</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label>Cliente</label>
+        <select asp-for="ClienteId" class="form-control">
+            @foreach (var c in ViewBag.Clientes)
+            {
+                <option value="@c.Id">
+                    @c.Nombres @c.Apellidos
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Auto</label>
+        <select asp-for="AutoId" class="form-control">
+            @foreach (var a in ViewBag.Autos)
+            {
+                <option value="@a.Id">
+                    @a.Placa - @a.Marca @a.Modelo
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Inicio</label>
+        <input asp-for="FechaInicio" type="date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Fin</label>
+        <input asp-for="FechaFin" type="date" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Registrar
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Volver
+    </a>
+</form>
