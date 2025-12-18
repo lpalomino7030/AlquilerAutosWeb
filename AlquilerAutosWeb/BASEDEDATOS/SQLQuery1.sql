@@ -353,9 +353,37 @@ BEGIN
       AND EstadoAuto = 'Disponible';
 END;
 GO
+--------------------------------
 
+CREATE PROCEDURE sp_obtener_precio_auto
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
 
+    SELECT 
+        Id,
+        PrecioDia
+    FROM Autos
+    WHERE Id = @Id
+      AND Estado = 1;
+END;
+GO
 
+-------------------------------
+
+CREATE PROCEDURE sp_autos_marcar_alquilado
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Autos
+    SET EstadoAuto = 'Alquilado'
+    WHERE Id = @Id
+      AND Estado = 1;
+END
+GO
 
 
 
