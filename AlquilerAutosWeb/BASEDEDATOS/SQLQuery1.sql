@@ -79,4 +79,290 @@ VALUES
 -- PROCEDIMIENTO ALMACENADOS
 
 
+CREATE PROCEDURE sp_listar_alquileres_activos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        A.Id,
+        A.FechaInicio,
+        A.FechaFin,
+        A.Total,
+        A.Estado,
+        A.EstadoAlquiler,
+        C.Nombres + ' ' + C.Apellidos AS ClienteNombre,
+        AU.Placa + ' - ' + AU.Marca + ' ' + AU.Modelo AS AutoNombre
+    FROM Alquileres A
+    INNER JOIN Clientes C ON A.ClienteId = C.Id
+    INNER JOIN Autos AU ON A.AutoId = AU.Id
+    WHERE A.Estado = 1;
+END
+GO
+
+----------------------------------------
+CREATE PROCEDURE sp_insertar_alquiler
+    @ClienteId INT,
+    @AutoId INT,
+    @FechaInicio DATE,
+    @FechaFin DATE,
+    @Total DECIMAL(10,2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Alquileres
+    (
+        ClienteId,
+        AutoId,
+        FechaInicio,
+        FechaFin,
+        Total,
+        EstadoAlquiler,
+        Estado
+    )
+    VALUES
+    (
+        @ClienteId,
+        @AutoId,
+        @FechaInicio,
+        @FechaFin,
+        @Total,
+        'Activo',
+        1
+    );
+END;
+GO
+
+--------------------------------------------
+
+CREATE PROCEDURE sp_obtener_alquiler_por_id
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        ClienteId,
+        AutoId,
+        FechaInicio,
+        FechaFin,
+        Total,
+        EstadoAlquiler,
+        Estado
+    FROM Alquileres
+    WHERE Id = @Id
+      AND Estado = 1;
+END;
+GO
+
+CREATE PROCEDURE sp_obtener_alquiler_id
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Id,
+        AutoId,
+        EstadoAlquiler
+    FROM Alquileres
+    WHERE Id = @Id
+      AND Estado = 1;
+END;
+GO
+
+------------------------------------
+
+CREATE PROCEDURE sp_finalizar_alquiler
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Alquileres
+    SET EstadoAlquiler = 'Finalizado'
+    WHERE Id = @Id
+      AND Estado = 1;
+END;
+GO
+
+-----------------------------------
+CREATE PROCEDURE sp_alquileres_activos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT COUNT(*) 
+    FROM Alquileres
+    WHERE Estado = 1
+      AND EstadoAlquiler = 'Activo';
+END
+GO
+
+-----------------------------------
+CREATE PROCEDURE sp_listar_autos_activos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        Placa,
+        Marca,
+        Modelo,
+        Anio,
+        PrecioDia,
+        EstadoAuto,
+        Estado
+    FROM Autos
+    WHERE Estado = 1;
+END
+GO
+
+----------------------------
+
+CREATE PROCEDURE sp_insertar_auto
+    @placa VARCHAR(20),
+    @marca VARCHAR(50),
+    @modelo VARCHAR(50),
+    @anio INT,
+    @precio DECIMAL(10,2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Autos
+    (
+        Placa,
+        Marca,
+        Modelo,
+        Anio,
+        PrecioDia,
+        EstadoAuto,
+        Estado
+    )
+    VALUES
+    (
+        @placa,
+        @marca,
+        @modelo,
+        @anio,
+        @precio,
+        'Disponible',
+        1
+    );
+END;
+GO
+
+-----------------------------
+
+CREATE PROCEDURE sp_obtener_auto_por_id
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        Placa,
+        Marca,
+        Modelo,
+        Anio,
+        PrecioDia,
+        EstadoAuto,
+        Estado
+    FROM Autos
+    WHERE Id = @Id;
+END
+GO
+
+----------------------------------
+
+CREATE PROCEDURE sp_actualizar_auto
+    @id INT,
+    @placa VARCHAR(20),
+    @marca VARCHAR(50),
+    @modelo VARCHAR(50),
+    @anio INT,
+    @precio DECIMAL(10,2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Autos
+    SET
+        Placa = @placa,
+        Marca = @marca,
+        Modelo = @modelo,
+        Anio = @anio,
+        PrecioDia = @precio
+    WHERE Id = @id;
+END;
+GO
+
+------------------------------------
+
+CREATE PROCEDURE sp_autos_listar
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        Placa,
+        Marca,
+        Modelo,
+        Anio,
+        PrecioDia,
+        EstadoAuto,
+        Estado
+    FROM Autos
+    WHERE Estado = 1;
+END
+GO
+
+--------------------------------
+
+CREATE PROCEDURE sp_autos_eliminar
+(
+    @Id INT
+)
+AS
+BEGIN
+    UPDATE Autos
+    SET Estado = 0
+    WHERE Id = @Id;
+END
+GO
+---------------------------------------
+CREATE PROCEDURE sp_listar_autos_disponibles
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        Placa,
+        Marca,
+        Modelo,
+        PrecioDia
+    FROM Autos
+    WHERE Estado = 1
+      AND EstadoAuto = 'Disponible';
+END;
+GO
+
+
+
+
+
+
+
+
+
+
+
+
 

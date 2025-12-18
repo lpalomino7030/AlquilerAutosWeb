@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data;
 
 
 namespace AlquilerAutosWeb.Models
@@ -8,6 +9,7 @@ namespace AlquilerAutosWeb.Models
     {
         Conexion cn = new Conexion();
 
+        /*
         public List<Auto> Listar()
         {
             List<Auto> lista = new List<Auto>();
@@ -38,10 +40,42 @@ namespace AlquilerAutosWeb.Models
 
             return lista;
         }
+        */
+
+        public List<Auto> Listar()
+        {
+            List<Auto> lista = new List<Auto>();
+
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_listar_autos_activos", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    lista.Add(new Auto
+                    {
+                        Id = dr.GetInt32(0),
+                        Placa = dr.GetString(1),
+                        Marca = dr.GetString(2),
+                        Modelo = dr.GetString(3),
+                        Anio = dr.GetInt32(4),
+                        PrecioDia = dr.GetDecimal(5),
+                        EstadoAuto = dr.GetString(6),
+                        Estado = dr.GetBoolean(7)
+                    });
+                }
+            }
+
+            return lista;
+        }
 
         //
 
-
+        /*
         public void Insertar(Auto a)
         {
             using (SqlConnection con = cn.GetConnection())
@@ -62,10 +96,28 @@ namespace AlquilerAutosWeb.Models
                 con.Open();
                 cmd.ExecuteNonQuery();
             }
+        }*/
+
+        public void Insertar(Auto a)
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_insertar_auto", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@placa", a.Placa);
+                cmd.Parameters.AddWithValue("@marca", a.Marca);
+                cmd.Parameters.AddWithValue("@modelo", a.Modelo);
+                cmd.Parameters.AddWithValue("@anio", a.Anio);
+                cmd.Parameters.AddWithValue("@precio", a.PrecioDia);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
 
         //
-
+        /*
         public Auto ObtenerPorId(int id)
         {
             Auto a = null;
@@ -97,8 +149,43 @@ namespace AlquilerAutosWeb.Models
 
             return a;
         }
+        */
+        public Auto ObtenerPorId(int id)
+        {
+            Auto a = null;
+
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_obtener_auto_por_id", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    a = new Auto
+                    {
+                        Id = dr.GetInt32(0),
+                        Placa = dr.GetString(1),
+                        Marca = dr.GetString(2),
+                        Modelo = dr.GetString(3),
+                        Anio = dr.GetInt32(4),
+                        PrecioDia = dr.GetDecimal(5),
+                        EstadoAuto = dr.GetString(6),
+                        Estado = dr.GetBoolean(7)
+                    };
+                }
+            }
+
+            return a;
+        }
+
+
 
         //
+        /*
         public void Actualizar(Auto a)
         {
             using (SqlConnection con = cn.GetConnection())
@@ -124,8 +211,31 @@ namespace AlquilerAutosWeb.Models
                 cmd.ExecuteNonQuery();
             }
         }
+        */
+
+        public void Actualizar(Auto a)
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_actualizar_auto", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id", a.Id);
+                cmd.Parameters.AddWithValue("@placa", a.Placa);
+                cmd.Parameters.AddWithValue("@marca", a.Marca);
+                cmd.Parameters.AddWithValue("@modelo", a.Modelo);
+                cmd.Parameters.AddWithValue("@anio", a.Anio);
+                cmd.Parameters.AddWithValue("@precio", a.PrecioDia);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
 
         //
+        /*
         public void Eliminar(int id)
         {
             using (SqlConnection con = cn.GetConnection())
@@ -138,11 +248,25 @@ namespace AlquilerAutosWeb.Models
                 cmd.ExecuteNonQuery();
             }
         }
+        */
+
+        public void Eliminar(int id)
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_autos_eliminar", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
 
 
         //
 
-
+        /*
         public List<Auto> ListarDisponibles()
         {
             List<Auto> lista = new List<Auto>();
@@ -171,10 +295,41 @@ namespace AlquilerAutosWeb.Models
             }
 
             return lista;
+        }*/
+
+        public List<Auto> ListarDisponibles()
+        {
+            List<Auto> lista = new List<Auto>();
+
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_listar_autos_disponibles", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    lista.Add(new Auto
+                    {
+                        Id = dr.GetInt32(dr.GetOrdinal("Id")),
+                        Placa = dr.GetString(dr.GetOrdinal("Placa")),
+                        Marca = dr.GetString(dr.GetOrdinal("Marca")),
+                        Modelo = dr.GetString(dr.GetOrdinal("Modelo")),
+                        PrecioDia = dr.GetDecimal(dr.GetOrdinal("PrecioDia"))
+                    });
+                }
+            }
+
+            return lista;
         }
 
-        //  
 
+
+
+        //  
+        /*
         public Auto ObtenerPrecio(int id)
         {
             Auto a = null;
@@ -200,8 +355,39 @@ namespace AlquilerAutosWeb.Models
 
             return a;
         }
+        */
+
+
+        public Auto ObtenerPrecio(int id)
+        {
+            Auto a = null;
+
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_obtener_precio_auto", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    a = new Auto
+                    {
+                        Id = dr.GetInt32(dr.GetOrdinal("Id")),
+                        PrecioDia = dr.GetDecimal(dr.GetOrdinal("PrecioDia"))
+                    };
+                }
+            }
+
+            return a;
+        }
+
+
 
         //
+        /*
         public void MarcarAlquilado(int id)
         {
             using (SqlConnection con = cn.GetConnection())
@@ -214,6 +400,23 @@ namespace AlquilerAutosWeb.Models
                 cmd.ExecuteNonQuery();
             }
         }
+        */
+
+
+        public void MarcarAlquilado(int id)
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_autos_marcar_alquilado", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
 
         //
 

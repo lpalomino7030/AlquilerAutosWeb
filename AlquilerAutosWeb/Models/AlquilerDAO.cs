@@ -1,11 +1,50 @@
-﻿using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data;
 
 namespace AlquilerAutosWeb.Models
 {
     public class AlquilerDAO
     {
         Conexion cn = new Conexion();
+
+        public IEnumerable<Alquiler> Listar()
+        {
+            List<Alquiler> lista = new List<Alquiler>();
+
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_listar_empleados", con);
+
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read()) {
+                    lista.Add(new Alquiler()
+                    {
+                        Id = dr.GetInt32(0),
+                        FechaInicio = dr.GetDateTime(1),
+                        FechaFin = dr.GetDateTime(2),
+                        Total = dr.GetDecimal(3),
+                        Estado = dr.GetBoolean(4),
+                        EstadoAlquiler = dr.GetString(5),
+                        ClienteNombre = dr.GetString(6),
+                        AutoNombre = dr.GetString(7)
+
+                    });
+
+                    }
+            
+            
+            
+            }
+
+            return lista;
+        }
+
+        /*
 
         public List<Alquiler> Listar()
         {
@@ -51,11 +90,28 @@ namespace AlquilerAutosWeb.Models
 
             return lista;
         }
+        */
 
 
-        //
+        public void Insertar(Alquiler a)
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_insertar_alquiler", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.Parameters.AddWithValue("@ClienteId", a.ClienteId);
+                cmd.Parameters.AddWithValue("@AutoId", a.AutoId);
+                cmd.Parameters.AddWithValue("@FechaInicio", a.FechaInicio);
+                cmd.Parameters.AddWithValue("@FechaFin", a.FechaFin);
+                cmd.Parameters.AddWithValue("@Total", a.Total);
 
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        /*
         public void Insertar(Alquiler a)
         {
             using (SqlConnection con = cn.GetConnection())
@@ -77,9 +133,39 @@ namespace AlquilerAutosWeb.Models
                 cmd.ExecuteNonQuery();
             }
         }
-
+        */
         //
 
+        public Alquiler ObtenerPorId(int id)
+        {
+            Alquiler a = null;
+
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_obtener_alquiler_id", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        a = new Alquiler
+                        {
+                            Id = dr.GetInt32(0),
+                            AutoId = dr.GetInt32(2),
+EstadoAlquiler = dr.GetString(6),
+                        };
+                    }
+                }
+            }
+
+            return a;
+        }
+
+        /*
         public Alquiler ObtenerPorId(int id)
         {
             Alquiler a = null;
@@ -106,9 +192,11 @@ namespace AlquilerAutosWeb.Models
 
             return a;
         }
+        */
+
 
         //Metodo Finalizar
-        public void Finalizar(int id)
+      /*  public void Finalizar(int id)
         {
             using (SqlConnection con = cn.GetConnection())
             {
@@ -120,10 +208,25 @@ namespace AlquilerAutosWeb.Models
                 cmd.ExecuteNonQuery();
             }
         }
+      */
+
+        public void Finalizar(int id)
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_finalizar_alquiler", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
 
 
         //
-
+        /*
         public int AlquileresActivos()
         {
             using (SqlConnection con = cn.GetConnection())
@@ -135,7 +238,19 @@ namespace AlquilerAutosWeb.Models
                 return (int)cmd.ExecuteScalar();
             }
         }
+        */
 
+        public int AlquileresActivos()
+{
+    using (SqlConnection con = cn.GetConnection())
+    {
+        SqlCommand cmd = new SqlCommand("sp_alquileres_activos", con);
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        con.Open();
+        return Convert.ToInt32(cmd.ExecuteScalar());
+    }
+}
 
         //
 

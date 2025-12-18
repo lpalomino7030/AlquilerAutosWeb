@@ -19,13 +19,12 @@ namespace AlquilerAutosWeb.Models
 
                 if (existe == 0)
                 {
-                    string sqlInsert = @"INSERT INTO Usuarios (Usuario, Password, Rol, Estado)
-                                 VALUES (@usuario, @password, @rol, @estado)";
+                    string sqlInsert = @"INSERT INTO Usuarios (Usuario, Password, Rol, Estado) VALUES (@usuario, @password, @rol, @estado)";
 
                     SqlCommand insertCmd = new SqlCommand(sqlInsert, con);
 
                     string passwordHash = BCrypt.Net.BCrypt.HashPassword("123");
-
+                    Console.WriteLine(passwordHash);
                     insertCmd.Parameters.AddWithValue("@usuario", "admin");
                     insertCmd.Parameters.AddWithValue("@password", passwordHash);
                     insertCmd.Parameters.AddWithValue("@rol", "Administrador");
@@ -53,16 +52,16 @@ namespace AlquilerAutosWeb.Models
 
                 if (dr.Read())
                 {
-                    string passwordHash = dr["Password"].ToString();
+                    string passwordHash = dr.GetString(0);
 
                     if (BCrypt.Net.BCrypt.Verify(password, passwordHash))
                     {
                         u = new Usuario
                         {
-                            Id = Convert.ToInt32(dr["Id"]),
-                            UsuarioNombre = dr["Usuario"].ToString(),
-                            Rol = dr["Rol"].ToString(),
-                            Estado = Convert.ToBoolean(dr["Estado"])
+                            Id = dr.GetInt32(0),
+                            UsuarioNombre = dr.GetString(1),
+                            Rol = dr.GetString(2),
+                            Estado =dr.GetBoolean(3)
                         };
                     }
                 }

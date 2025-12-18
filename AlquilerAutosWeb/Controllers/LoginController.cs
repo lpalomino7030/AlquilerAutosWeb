@@ -1,4 +1,5 @@
 ﻿using AlquilerAutosWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAutosWeb.Controllers
@@ -15,7 +16,7 @@ namespace AlquilerAutosWeb.Controllers
         {
             UsuarioDAO dao = new UsuarioDAO();
             var user = dao.ValidarLogin(usuario, clave);
-
+            Console.WriteLine('1');
             if (user != null)
             {
                 // GUARDAR DATOS EN SESIÓN (CORRECTO)
