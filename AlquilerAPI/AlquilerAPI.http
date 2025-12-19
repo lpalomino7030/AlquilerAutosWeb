@@ -1,0 +1,6 @@
+@AlquilerAPI_HostAddress = http://localhost:5019
+
+GET {{AlquilerAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
