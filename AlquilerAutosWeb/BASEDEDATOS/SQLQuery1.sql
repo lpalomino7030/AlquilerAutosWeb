@@ -385,7 +385,44 @@ BEGIN
 END
 GO
 
+--------------------------------
 
+CREATE PROCEDURE sp_reporte_alquileres
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        C.Nombres + ' ' + C.Apellidos AS Cliente,
+        AU.Placa AS Placa,
+        AU.Marca + ' ' + AU.Modelo AS Auto,
+        A.FechaInicio,
+        A.FechaFin,
+        A.Total,
+        A.EstadoAlquiler
+    FROM Alquileres A
+    INNER JOIN Clientes C ON A.ClienteId = C.Id
+    INNER JOIN Autos AU ON A.AutoId = AU.Id
+    WHERE A.Estado = 1
+    ORDER BY A.FechaInicio DESC;
+END
+GO
+
+------------------------------------
+
+CREATE PROCEDURE sp_alquileres_por_mes
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        MONTH(FechaInicio) AS Mes,
+        COUNT(*) AS Total
+    FROM Alquileres
+    WHERE Estado = 1
+    GROUP BY MONTH(FechaInicio)
+    ORDER BY Mes;
+END
 
 
 

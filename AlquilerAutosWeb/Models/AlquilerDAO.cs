@@ -9,7 +9,7 @@ namespace AlquilerAutosWeb.Models
         Conexion cn = new Conexion();
 
         public IEnumerable<Alquiler> Listar()
-        {
+        {//
             List<Alquiler> lista = new List<Alquiler>();
 
             using (SqlConnection con = cn.GetConnection())
@@ -17,11 +17,12 @@ namespace AlquilerAutosWeb.Models
                 SqlCommand cmd = new SqlCommand("sp_listar_empleados", con);
 
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            
+
                 con.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
 
-                while (dr.Read()) {
+                while (dr.Read())
+                {
                     lista.Add(new Alquiler()
                     {
                         Id = dr.GetInt32(0),
@@ -35,10 +36,10 @@ namespace AlquilerAutosWeb.Models
 
                     });
 
-                    }
-            
-            
-            
+                }
+
+
+
             }
 
             return lista;
@@ -94,7 +95,7 @@ namespace AlquilerAutosWeb.Models
 
 
         public void Insertar(Alquiler a)
-        {
+        {//
             using (SqlConnection con = cn.GetConnection())
             {
                 SqlCommand cmd = new SqlCommand("sp_insertar_alquiler", con);
@@ -137,7 +138,7 @@ namespace AlquilerAutosWeb.Models
         //
 
         public Alquiler ObtenerPorId(int id)
-        {
+        {//
             Alquiler a = null;
 
             using (SqlConnection con = cn.GetConnection())
@@ -155,8 +156,8 @@ namespace AlquilerAutosWeb.Models
                         a = new Alquiler
                         {
                             Id = dr.GetInt32(0),
-                            AutoId = dr.GetInt32(2),
-EstadoAlquiler = dr.GetString(6),
+                            AutoId = dr.GetInt32(1),
+                            EstadoAlquiler = dr.GetString(2),
                         };
                     }
                 }
@@ -196,22 +197,22 @@ EstadoAlquiler = dr.GetString(6),
 
 
         //Metodo Finalizar
-      /*  public void Finalizar(int id)
-        {
-            using (SqlConnection con = cn.GetConnection())
-            {
-                string sql = "UPDATE Alquileres SET EstadoAlquiler = 'Finalizado' WHERE Id = @id";
-                SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.Parameters.AddWithValue("@id", id);
+        /*  public void Finalizar(int id)
+          {
+              using (SqlConnection con = cn.GetConnection())
+              {
+                  string sql = "UPDATE Alquileres SET EstadoAlquiler = 'Finalizado' WHERE Id = @id";
+                  SqlCommand cmd = new SqlCommand(sql, con);
+                  cmd.Parameters.AddWithValue("@id", id);
 
-                con.Open();
-                cmd.ExecuteNonQuery();
-            }
-        }
-      */
+                  con.Open();
+                  cmd.ExecuteNonQuery();
+              }
+          }
+        */
 
         public void Finalizar(int id)
-        {
+        {//
             using (SqlConnection con = cn.GetConnection())
             {
                 SqlCommand cmd = new SqlCommand("sp_finalizar_alquiler", con);
@@ -241,16 +242,16 @@ EstadoAlquiler = dr.GetString(6),
         */
 
         public int AlquileresActivos()
-{
-    using (SqlConnection con = cn.GetConnection())
-    {
-        SqlCommand cmd = new SqlCommand("sp_alquileres_activos", con);
-        cmd.CommandType = CommandType.StoredProcedure;
+        {
+            using (SqlConnection con = cn.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("sp_alquileres_activos", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-        con.Open();
-        return Convert.ToInt32(cmd.ExecuteScalar());
-    }
-}
+                con.Open();
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
 
         //
 

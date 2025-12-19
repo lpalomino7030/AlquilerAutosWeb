@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 
 namespace AlquilerAPI.Models
 {
     public class Conexion
     {
-        private readonly string _cadena;
+        private readonly string _cadena ;
 
         public Conexion()
         {
