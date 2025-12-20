@@ -1,4 +1,5 @@
-﻿using AlquilerAPI.Repositorio.Intefaces;
+﻿using AlquilerAPI.Models;
+using AlquilerAPI.Repositorio.Intefaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAPI.Controllers
@@ -18,23 +19,83 @@ namespace AlquilerAPI.Controllers
             _cliente = cliente;
         }
 
-        // http gets
-        [HttpGet("getAlquiler")]
-
-
-
-        //http post
-
-
-
-
-
-        public IActionResult Index()
+        // ================================
+        // GET: api/alquiler
+        // ================================
+        [HttpGet]
+        public IActionResult GetAlquileres()
         {
-            return View();
+            var lista = _alquiler.ListarAlquiler();
+            return Ok(lista);
         }
 
+        // ================================
+        // GET: api/alquiler/5
+        // ================================
+        [HttpGet("{id}")]
+        public IActionResult GetAlquilerPorId(int id)
+        {
+            var alquiler = _alquiler.ObtenerPorId(id);
 
+            if (alquiler == null)
+                return NotFound("Alquiler no encontrado");
+
+            return Ok(alquiler);
+        }
+
+        // ================================
+        // POST: api/alquiler
+        // ================================
+        [HttpPost]
+        public IActionResult CrearAlquiler([FromBody] Alquiler alquiler)
+        {
+            if (alquiler == null)
+                return BadRequest("Datos inválidos");
+
+            if (alquiler.FechaInicio >= alquiler.FechaFin)
+                return BadRequest("La fecha de inicio debe ser menor a la fecha fin");
+
+            int resultado = _alquiler.InsertarAlquiler(alquiler);
+
+            if (resultado <= 0)
+                return StatusCode(500, "Error al registrar el alquiler");
+
+            return Ok(new { mensaje = "Alquiler registrado correctamente" });
+        }
+
+        // ================================
+        // PUT: api/alquiler/finalizar/5
+        // ================================
+        [HttpPut("finalizar/{id}")]
+        public IActionResult FinalizarAlquiler(int id)
+        {
+            int resultado = _alquiler.Finalizar(id);
+
+            if (resultado == 0)
+                return NotFound("No se pudo finalizar el alquiler");
+
+            return Ok(new { mensaje = "Alquiler finalizado correctamente" });
+        }
+
+        // ================================
+        // GET: api/alquiler/activos
+        // ================================
+        [HttpGet("activos")]
+        public IActionResult AlquileresActivos()
+        {
+            int total = _alquiler.AlquileresActivos();
+            return Ok(total);
+        }
+
+        // ================================
+        // GET: api/alquiler/por-mes
+        // ================================
+        [HttpGet("por-mes")]
+        public IActionResult AlquileresPorMes()
+        {
+            var datos = _alquiler.ObtenerAlquileresPorMes();
+            return Ok(datos);
+        }
 
 
 

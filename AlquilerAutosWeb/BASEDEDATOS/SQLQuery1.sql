@@ -72,7 +72,7 @@ VALUES
 ('BR-108', 'Volkswagen', 'Taos', 2024, 230, 'Disponible', 1),
 ('BR-109', 'BMW', 'X1', 2024, 360, 'Disponible', 1),
 ('BR-110', 'Audi', 'Q3', 2024, 370, 'Disponible', 1);
-
+GO
 
 
 
@@ -423,10 +423,47 @@ BEGIN
     GROUP BY MONTH(FechaInicio)
     ORDER BY Mes;
 END
+GO
+----------------------------
+CREATE PROCEDURE sp_marcar_auto_disponible
+    @id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Autos
+    SET EstadoAuto = 'Disponible'
+    WHERE Id = @id;
+END
+GO
 
 
+----------------------------
+CREATE PROCEDURE sp_total_autos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT COUNT(*) 
+    FROM Autos
+    WHERE Estado = 1;
+END
+GO
 
 
+------------------------------
+
+CREATE PROCEDURE sp_autos_disponibles
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT COUNT(*)
+    FROM Autos
+    WHERE Estado = 1
+      AND EstadoAuto = 'Disponible';
+END
+GO
 
 
 
