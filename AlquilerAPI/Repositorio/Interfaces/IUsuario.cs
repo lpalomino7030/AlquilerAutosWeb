@@ -5,8 +5,11 @@ namespace AlquilerAPI.Repositorio.Intefaces
     public interface IUsuario
     {
         //CRUD Usuario
-        IEnumerable<Usuario> ListarUsuario();
+        List<Usuarios> ListarUsuario();
 
+        int InsertarUsuario(Usuarios usuario);
+
+        int UpdateUsuario(Usuarios usuario);
 
         //Consultas especiales
     }

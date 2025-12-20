@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAPI.Controllers
 {
-    public class UsuarioAPIController : Controller
+    public class UsuarioAPIController : ControllerBase
     {
 
         private readonly IUsuario _usuario;
@@ -16,9 +16,6 @@ namespace AlquilerAPI.Controllers
 
 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+
     }
 }

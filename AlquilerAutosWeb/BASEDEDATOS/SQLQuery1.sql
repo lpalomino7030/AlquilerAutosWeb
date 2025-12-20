@@ -465,6 +465,253 @@ BEGIN
 END
 GO
 
+------------------------------------------
+
+CREATE PROCEDURE sp_obtener_estado_autos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        EstadoAuto,
+        COUNT(*) AS Total
+    FROM Autos
+    WHERE Estado = 1
+    GROUP BY EstadoAuto;
+END
+GO
+------------------------------------------
+
+CREATE PROCEDURE sp_buscar_autos
+    @Texto VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Id,
+        Placa,
+        Marca,
+        Modelo,
+        Anio,
+        PrecioDia,
+        EstadoAuto,
+        Estado
+    FROM Autos
+    WHERE Estado = 1
+      AND (
+            Placa  LIKE '%' + @Texto + '%' OR
+            Marca  LIKE '%' + @Texto + '%' OR
+            Modelo LIKE '%' + @Texto + '%'
+          );
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_listar_clientes
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Id,
+        DNI,
+        Nombres,
+        Apellidos,
+        Telefono,
+        Email,
+        Estado
+    FROM Clientes
+    
+END
+GO
+
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_insertar_cliente
+    @DNI        VARCHAR(20),
+    @Nombres    VARCHAR(100),
+    @Apellidos  VARCHAR(100),
+    @Telefono   VARCHAR(20),
+    @Email      VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Clientes
+        (DNI, Nombres, Apellidos, Telefono, Email, Estado)
+    VALUES
+        (@DNI, @Nombres, @Apellidos, @Telefono, @Email, 1);
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_obtener_cliente_por_id
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Id,
+        DNI,
+        Nombres,
+        Apellidos,
+        Telefono,
+        Email,
+        Estado
+    FROM Clientes
+    WHERE Id = @Id;
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_actualizar_cliente
+    @Id         INT,
+    @DNI        VARCHAR(20),
+    @Nombres    VARCHAR(100),
+    @Apellidos  VARCHAR(100),
+    @Telefono   VARCHAR(20),
+    @Email      VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Clientes
+    SET
+        DNI = @DNI,
+        Nombres = @Nombres,
+        Apellidos = @Apellidos,
+        Telefono = @Telefono,
+        Email = @Email
+    WHERE Id = @Id;
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_eliminar_cliente
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Clientes
+    SET Estado = 0
+    WHERE Id = @Id;
+END
+GO
+
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_total_clientes_activos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT COUNT(*) 
+    FROM Clientes
+    WHERE Estado = 1;
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_buscar_clientes
+    @Texto VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        DNI,
+        Nombres,
+        Apellidos,
+        Estado
+    FROM Clientes
+    WHERE Estado = 1
+      AND (
+            Nombres   LIKE '%' + @Texto + '%'
+         OR Apellidos LIKE '%' + @Texto + '%'
+         OR DNI       LIKE '%' + @Texto + '%'
+      );
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_listar_clientes_activos
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        Id,
+        Nombres,
+        Apellidos
+    FROM Clientes
+    WHERE Estado = 1;
+END
+GO
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_listar_usuarios
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT
+        Id,
+        Usuario,
+        Rol,
+        Estado
+    FROM Usuarios;
+END
+GO
+
+
+-----------------------------------------
+
+CREATE PROCEDURE sp_updateUsuario
+    @Id INT,
+    @Usuario VARCHAR(50),
+    @Password VARCHAR(255),
+    @Rol VARCHAR(20),
+    @Estado BIT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Usuarios
+    SET
+        Usuario = @Usuario,
+        Password = @Password,
+        Rol = @Rol,
+        Estado = @Estado
+    WHERE Id = @Id;
+END
+GO
+    
+-----------------------------------------
+
+CREATE PROCEDURE sp_InsertarUsuario
+    @UsuarioNombre VARCHAR(50),
+    @Password VARCHAR(255),
+    @Rol VARCHAR(20),
+    @Estado BIT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Usuarios (Usuario, Password, Rol, Estado)
+    VALUES (@UsuarioNombre, @Password, @Rol, @Estado);
+END
+GO
 
 
 

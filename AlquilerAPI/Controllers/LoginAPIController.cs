@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAPI.Controllers
 {
-    public class LoginAPIController : Controller
+    public class LoginAPIController : ControllerBase
     {
         private readonly ILogin _login;
 
@@ -13,9 +13,6 @@ namespace AlquilerAPI.Controllers
         }
 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+
     }
 }

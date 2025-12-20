@@ -23,6 +23,9 @@ namespace AlquilerAPI.Repositorio.Intefaces
 
         Auto ObtenerPrecioAuto(int id);
 
+        Dictionary<int, string> ObtenerEstadoAutos();
+
+        List<Auto> Buscar(string texto);
 
 
 

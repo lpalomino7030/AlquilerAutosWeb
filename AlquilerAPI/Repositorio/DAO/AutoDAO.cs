@@ -261,9 +261,64 @@ namespace AlquilerAPI.Repositorio.DAO
 
         //metodo que compara autos disponibles
 
+        public Dictionary<int, string> ObtenerEstadoAutos()
+        {
+            Dictionary<int, string> datos = new Dictionary<int, string>();
+
+            using (SqlConnection con = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("sp_obtener_estado_autos", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    datos.Add(
+                        
+                        Convert.ToInt32(dr["Total"]), dr["EstadoAuto"].ToString()
+                    );
+                }
+            }
+
+            return datos;
+        }
 
 
+        public List<Auto> Buscar(string texto)
+        {
+            List<Auto> lista = new List<Auto>();
 
+            using (SqlConnection con = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("sp_buscar_autos", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Texto", texto);
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Auto auto = new Auto
+                    {
+                        Id = dr.GetInt32(dr.GetOrdinal("Id")),
+                        Placa = dr.GetString(dr.GetOrdinal("Placa")),
+                        Marca = dr.GetString(dr.GetOrdinal("Marca")),
+                        Modelo = dr.GetString(dr.GetOrdinal("Modelo")),
+                        Anio = dr.GetInt32(dr.GetOrdinal("Anio")),
+                        PrecioDia = dr.GetDecimal(dr.GetOrdinal("PrecioDia")),
+                        EstadoAuto = dr.GetString(dr.GetOrdinal("EstadoAuto")),
+                        Estado = dr.GetBoolean(dr.GetOrdinal("Estado"))
+                    };
+
+                    lista.Add(auto);
+                }
+            }
+
+            return lista;
+        }
 
 
 
