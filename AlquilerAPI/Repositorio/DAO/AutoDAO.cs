@@ -244,7 +244,7 @@ namespace AlquilerAPI.Repositorio.DAO
 
         // realizar autos disponibles()
 
-        public int AutosDisponibles()
+        public int AutoDisponibles()
         {
             using (SqlConnection con = new SqlConnection(cadena))
             {
@@ -255,6 +255,8 @@ namespace AlquilerAPI.Repositorio.DAO
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
+
+
 
 
         //metodo que compara autos disponibles
