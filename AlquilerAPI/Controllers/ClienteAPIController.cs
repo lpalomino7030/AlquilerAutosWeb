@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ClienteAPIController : ControllerBase
     {
+
         private readonly ICliente _cliente;
 
         public ClienteAPIController(ICliente cliente)

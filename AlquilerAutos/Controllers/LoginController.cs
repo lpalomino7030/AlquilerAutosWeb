@@ -55,11 +55,11 @@ namespace AlquilerAutos.Controllers
                 var usuario = JsonSerializer.Deserialize<UsuariosDTO>(resultJson,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                // Guardar sesión
+            
                 HttpContext.Session.SetString("Usuario", usuario.Usuario);
                 HttpContext.Session.SetString("Rol", usuario.Rol);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ViewBag.Error = "Usuario o contraseña incorrectos";

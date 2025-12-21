@@ -9,7 +9,7 @@ namespace AlquilerAPI.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public decimal Total { get; set; }
-        public string EstadoAlquiler { get; set; } = string.Empty; // Activo / Finalizado
+        public string EstadoAlquiler { get; set; } = string.Empty; 
         public bool Estado { get; set; }
 
         public string ClienteNombre { get; set; } = string.Empty;

@@ -33,8 +33,8 @@ namespace AlquilerAPI.Repositorio.DAO
                 {
                     while (dr.Read())
                     {
-                        int mes = dr.GetInt32(0);    // Mes
-                        int total = dr.GetInt32(1);  // Total
+                        int mes = dr.GetInt32(0);
+                        int total = dr.GetInt32(1);  
 
                         string nombreMes = new DateTime(
                             DateTime.Now.Year, mes, 1

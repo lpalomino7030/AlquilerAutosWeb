@@ -1,4 +1,5 @@
-﻿namespace AlquilerAPI.Models
+﻿
+namespace AlquilerAPI.Models
 {
     public class Auto
     {
@@ -8,7 +9,7 @@
         public string Modelo { get; set; } = string.Empty;
         public int Anio { get; set; }
         public decimal PrecioDia { get; set; }
-        public string EstadoAuto { get; set; } = string.Empty; // Disponible / Alquilado
+        public string EstadoAuto { get; set; } = string.Empty; 
         public bool Estado { get; set; }
        
 

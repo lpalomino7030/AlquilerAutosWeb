@@ -13,24 +13,33 @@ namespace AlquilerAutosWeb.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult Index(string usuario, string clave)
+        //{
+        //    UsuarioDAO dao = new UsuarioDAO();
+        //    var user = dao.ValidarLogin(usuario, clave);
+        //    Console.WriteLine('1');
+        //    if (user != null)
+        //    {
+        //        // GUARDAR DATOS EN SESIÓN (CORRECTO)
+        //        HttpContext.Session.SetString("usuario", user.UsuarioNombre);
+        //        HttpContext.Session.SetString("rol", user.Rol);
+
+        //        return RedirectToAction("Index", "Dashboard");
+        //    }
+
+        //    ViewBag.Error = "Usuario o contraseña incorrectos";
+        //    return View();
+        //}
+
+
         [HttpPost]
         public IActionResult Index(string usuario, string clave)
         {
-            UsuarioDAO dao = new UsuarioDAO();
-            var user = dao.ValidarLogin(usuario, clave);
-            Console.WriteLine('1');
-            if (user != null)
-            {
-                // GUARDAR DATOS EN SESIÓN (CORRECTO)
-                HttpContext.Session.SetString("usuario", user.UsuarioNombre);
-                HttpContext.Session.SetString("rol", user.Rol);
-
-                return RedirectToAction("Index", "Dashboard");
-            }
-
-            ViewBag.Error = "Usuario o contraseña incorrectos";
-            return View();
+            // 🔧 Login temporal
+            return RedirectToAction("Index", "Dashboard");
         }
+
 
         public IActionResult Logout()
         {

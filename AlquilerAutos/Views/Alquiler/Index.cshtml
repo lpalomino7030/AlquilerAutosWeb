@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AlquilerAutos.Models.Alquiler>
+
+@{
+    Layout = "_LayoutSistema";
+}
+
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">
+        + Nuevo Alquiler
+    </a>
+
+    <a asp-action="Reporte" class="btn btn-secondary ms-2">
+        Ver Reporte
+    </a>
+</div>
+
+
+
+<h2>Listado de Alquileres</h2>
+
+<form method="get" class="row mb-3">
+    <div class="col-md-4">
+        <input type="text"
+               name="buscar"
+               value="@ViewBag.Buscar"
+               class="form-control"
+               placeholder="Buscar por nombre o DNI">
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+        <a asp-action="Index" class="btn btn-secondary ms-1">
+            Limpiar
+        </a>
+    </div>
+</form>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Auto</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ClienteNombre</td>
+                <td>@item.AutoNombre</td>
+                <td>@item.FechaInicio.ToShortDateString()</td>
+                <td>@item.FechaFin.ToShortDateString()</td>
+                <td>S/. @item.Total</td>
+                <td>@item.EstadoAlquiler</td>
+                <td>
+                    @if (item.EstadoAlquiler == "Activo")
+                    {
+                        <a asp-action="Finalizar"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-danger">
+                            Finalizar
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

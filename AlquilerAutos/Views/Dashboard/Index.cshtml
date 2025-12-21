@@ -1,0 +1,130 @@
+﻿@{
+    Layout = "_LayoutSistema";
+}
+
+<!-- ================= BANNER ================= -->
+<div id="bannerAutos" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <img src="/img/banner1.jpg" class="d-block w-100" style="height:450px; object-fit:cover;">
+        </div>
+
+        <div class="carousel-item">
+            <img src="/img/banner2.jpg" class="d-block w-100" style="height:450px; object-fit:cover;">
+        </div>
+
+        <div class="carousel-item">
+            <img src="/img/banner3.jpg" class="d-block w-100" style="height:450px; object-fit:cover;">
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= GRAFICOS ================= -->
+<div class="container mt-5">
+    <div class="row justify-content-center text-center">
+
+        <!-- Grafico Estado de Autos -->
+        <div class="col-md-4">
+            <h5>Estado de Autos</h5>
+            <canvas id="estadoAutosChart" width="250" height="250"></canvas>
+        </div>
+
+        <!-- Grafico Alquileres por Mes -->
+        <div class="col-md-4">
+            <h5>Alquileres por Mes</h5>
+            <canvas id="alquileresMesChart" width="250" height="250"></canvas>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= DATOS PARA GRAFICO 1 ================= -->
+<script>
+    const estadoAutosData = @Html.Raw(
+                                System.Text.Json.JsonSerializer.Serialize(ViewBag.EstadoAutos)
+                );
+</script>
+
+<script>
+    const labels = Object.keys(estadoAutosData);
+    const values = Object.values(estadoAutosData);
+
+    if (labels.length === 0) {
+        document.getElementById("estadoAutosChart").parentElement.innerHTML =
+            "<p class='text-muted text-center'>No hay datos de autos para mostrar</p>";
+    } else {
+        new Chart(document.getElementById("estadoAutosChart"), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                        '#196ca4',
+                        '#198754', // Disponible
+                        '#dc3545'  // Alquilado
+                    ]
+                }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+<!-- ================= DATOS PARA GRAFICO 2 ================= -->
+<script>
+    const alquileresMesData = @Html.Raw(
+                                System.Text.Json.JsonSerializer.Serialize(ViewBag.AlquileresPorMes)
+                );
+</script>
+
+<script>
+    const labelsMes = Object.keys(alquileresMesData);
+    const valuesMes = Object.values(alquileresMesData);
+
+    if (labelsMes.length === 0) {
+        document.getElementById("alquileresMesChart").parentElement.innerHTML =
+            "<p class='text-muted text-center'>Aún no hay alquileres registrados</p>";
+    } else {
+        new Chart(document.getElementById("alquileresMesChart"), {
+            type: 'pie',
+            data: {
+                labels: labelsMes,
+                datasets: [{
+                    data: valuesMes,
+                    backgroundColor: [
+                        '#0d6efd',
+                        '#6610f2',
+                        '#6f42c1',
+                        '#d63384',
+                        '#fd7e14',
+                        '#ffc107',
+                        '#198754',
+                        '#20c997',
+                        '#0dcaf0',
+                        '#adb5bd',
+                        '#6c757d',
+                        '#dc3545'
+                    ]
+                }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+</script>

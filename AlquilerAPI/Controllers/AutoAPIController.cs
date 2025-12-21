@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AutoAPIController : ControllerBase
     {
         private readonly IAuto _auto;
@@ -60,8 +62,8 @@ namespace AlquilerAPI.Controllers
 
             if (resultado > 0)
             {
-                // Retorna 201 Created
-                return CreatedAtAction(nameof(ObtenerPorId), new { id = auto.Id }, auto); // Nota: auto.Id debe actualizarse si es identity
+                
+                return CreatedAtAction(nameof(ObtenerPorId), new { id = auto.Id }, auto); 
             }
 
             return BadRequest("No se pudo insertar el auto");

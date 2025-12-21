@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AlquilerAutos.Models.Cliente>
+
+@if (TempData["mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["mensaje"]
+    </div>
+}
+
+
+@{
+    Layout = "_LayoutSistema";
+}
+
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<h2>Listado de Clientes</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">
+    Nuevo Cliente
+</a>
+
+<form method="get" class="row mb-3">
+    <div class="col-md-4">
+        <input type="text"
+               name="buscar"
+               value="@ViewBag.Buscar"
+               class="form-control"
+               placeholder="Buscar por nombre o DNI">
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+        <a asp-action="Index" class="btn btn-secondary ms-1">
+            Limpiar
+        </a>
+    </div>
+</form>
+
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>DNI</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.DNI</td>
+                <td>@c.Nombres</td>
+                <td>@c.Apellidos</td>
+                <td>@c.Telefono</td>
+                <td>@c.Email</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@c.Id"
+                       class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@c.Id"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Eliminar cliente?');">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
