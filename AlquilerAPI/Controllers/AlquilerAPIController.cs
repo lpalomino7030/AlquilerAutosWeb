@@ -11,12 +11,13 @@ namespace AlquilerAPI.Controllers
         private readonly IAlquiler _alquiler;
         private readonly IAuto _auto;
         private readonly ICliente _cliente;
-
-        public AlquilerAPIController(IAlquiler alquiler, IAuto auto, ICliente cliente)
+        private readonly IReporteAlquiler _reporte;
+        public AlquilerAPIController(  IAlquiler alquiler, IAuto auto, ICliente cliente, IReporteAlquiler reporte)
         {
             _alquiler = alquiler;
             _auto = auto;
             _cliente = cliente;
+            _reporte = reporte;
         }
 
         // ================================
@@ -97,7 +98,19 @@ namespace AlquilerAPI.Controllers
             return Ok(datos);
         }
 
+        // ================================
+        // GET: api/alquiler/reporte
+        // ================================
+        [HttpGet("reporte")]
+        public IActionResult ReporteAlquileres()
+        {
+            var lista = _reporte.ReporteAlquileres();
 
+            if (lista == null || lista.Count == 0)
+                return NotFound("No existen datos para el reporte");
+
+            return Ok(lista);
+        }
 
 
 

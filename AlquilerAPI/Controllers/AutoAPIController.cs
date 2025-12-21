@@ -84,7 +84,7 @@ namespace AlquilerAPI.Controllers
         }
 
         // DELETE: api/AutoAPI/5
-        [HttpDelete("{id}")]
+        [HttpPut("{id}")]
         public IActionResult Eliminar(int id)
         {
             var resultado = _auto.EliminarAuto(id);

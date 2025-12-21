@@ -714,4 +714,17 @@ END
 GO
 
 
+-----------------------------------------
+CREATE PROCEDURE sp_login_usuario
+    @Usuario VARCHAR(50),
+    @Password VARCHAR(255)
+AS
+BEGIN
+    SELECT Id, Usuario, Rol, Estado
+    FROM Usuarios
+    WHERE Usuario = @Usuario
+      AND Password = @Password
+      AND Estado = 1
+END
+GO
 

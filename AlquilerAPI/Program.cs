@@ -10,6 +10,7 @@ builder.Services.AddScoped<ICliente, ClienteDAO>();
 builder.Services.AddScoped<ILogin, LoginDAO>();
 builder.Services.AddScoped<IReporteAlquiler, ReporteAlquilerDAO>();
 builder.Services.AddScoped<IUsuario, UsuarioDAO>();
+builder.Services.AddScoped<IReporteAlquiler, ReporteAlquilerDAO>();
 
 
 
@@ -17,7 +18,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
 builder.Services.AddCors(options =>
 {
@@ -29,6 +29,8 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {

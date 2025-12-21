@@ -84,25 +84,5 @@ namespace AlquilerAPI.Repositorio.DAO
                 }            return lista;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

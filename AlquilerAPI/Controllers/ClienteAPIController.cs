@@ -55,7 +55,7 @@ namespace AlquilerAPI.Controllers
             return BadRequest("No se pudo actualizar el cliente");
         }
 
-        [HttpDelete("Eliminar/{id}")]
+        [HttpPut("Eliminar/{id}")]
         public IActionResult Eliminar(int id)
         {
             var respuesta = _cliente.DeleteCliente(id);
