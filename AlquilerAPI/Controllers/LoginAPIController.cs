@@ -1,8 +1,11 @@
 ﻿using AlquilerAPI.Repositorio.Intefaces;
+using AlquilerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAPI.Controllers
 {
+    [Route("api/auth")]
+    [ApiController]
     public class LoginAPIController : ControllerBase
     {
         private readonly ILogin _login;
@@ -11,6 +14,28 @@ namespace AlquilerAPI.Controllers
         {
             _login = login;
         }
+
+        [HttpPost("login")]
+        public IActionResult ValidarLogin([FromBody] Usuarios usuario)
+        {
+            try
+            {
+                var user = _login.ValidarLogin(usuario.Usuario, usuario.Password);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return Unauthorized("Usuario o contraseña incorrectos");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno: " + ex.Message);
+            }
+        }
+
 
 
 

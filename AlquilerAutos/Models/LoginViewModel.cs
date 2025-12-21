@@ -5,9 +5,9 @@ namespace AlquilerAutos.Models
     public class LoginViewModel
     {
         [Required]
-        public string Usuario { get; set; }
+        public string Usuario { get; set; } = string.Empty;
 
         [Required]
-        public string Clave { get; set; }
+        public string Clave { get; set; } = string.Empty;
     }
 }

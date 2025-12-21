@@ -15,6 +15,11 @@ namespace AlquilerAutos.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("usuario") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View();
         }
 

@@ -6,7 +6,7 @@ namespace AlquilerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlquilerAPIController : Controller
+    public class AlquilerAPIController : ControllerBase
     {
         private readonly IAlquiler _alquiler;
         private readonly IAuto _auto;
