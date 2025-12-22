@@ -1,4 +1,7 @@
+CREATE DATABASE AlquilerAutosDB;
+GO
 
+USE AlquilerAutosDB;
 
 CREATE TABLE Usuarios (
     Id INT IDENTITY(1,1) PRIMARY KEY,
