@@ -515,7 +515,7 @@ GO
 
 -----------------------------------------
 
-CREATE PROCEDURE sp_listar_clientes
+CREATE OR ALTER PROCEDURE sp_listar_clientes
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -529,6 +529,7 @@ BEGIN
         Email,
         Estado
     FROM Clientes
+    WHERE Estado = 1;
     
 END
 GO
@@ -738,7 +739,8 @@ GO
 INSERT INTO Usuarios (Usuario, Password, Rol, Estado) VALUES
 ('LUISP', 'LOREM123', 'ADM', 1),
 ('ELIAS', '123456', 'EMP', 1),
-('USER', 'USER', 'EMP', 1);
+('USER', 'USER', 'EMP', 1),
+('admin', '123', 'ADM', 1);
 GO
 
 
