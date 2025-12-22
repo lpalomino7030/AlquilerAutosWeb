@@ -12,7 +12,7 @@ namespace AlquilerAutos.Controllers
 
         public ClienteController(IHttpClientFactory factory)
         {
-            _http = factory.CreateClient("ApiCliente");
+            _http = factory.CreateClient("ApiClient");
         }
 
         // LISTAR + BUSCAR
@@ -22,13 +22,12 @@ namespace AlquilerAutos.Controllers
 
             if (!string.IsNullOrEmpty(buscar))
             {
-                lista = await _http.GetFromJsonAsync<List<Cliente>>(
-                    $"Buscar?texto={buscar}");
+                lista = await _http.GetFromJsonAsync<List<Cliente>>("ClienteAPI/Buscar?texto={buscar}");
                 ViewBag.Buscar = buscar;
             }
             else
             {
-                lista = await _http.GetFromJsonAsync<List<Cliente>>("Listar");
+                lista = await _http.GetFromJsonAsync<List<Cliente>>("ClienteAPI/obtenerCliente");
             }
 
             return View(lista);
@@ -47,22 +46,26 @@ namespace AlquilerAutos.Controllers
             if (!ModelState.IsValid)
                 return View(cliente);
 
-            var response = await _http.PostAsJsonAsync("Guardar", cliente);
+            var response = await _http.PostAsJsonAsync("ClienteAPI/Guardar", cliente);
+
 
             if (response.IsSuccessStatusCode)
             {
                 TempData["mensaje"] = "Cliente registrado correctamente";
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                ModelState.AddModelError("", "Error al registrar cliente");
+            }
 
-            ModelState.AddModelError("", "Error al registrar cliente");
             return View(cliente);
         }
 
         // EDIT (GET)
         public async Task<IActionResult> Edit(int id)
         {
-            var cliente = await _http.GetFromJsonAsync<Cliente>($"Obtener/{id}");
+            var cliente = await _http.GetFromJsonAsync<Cliente>("ClienteAPI/Obtener/{id}");
             if (cliente == null) return NotFound();
 
             return View(cliente);
@@ -75,7 +78,7 @@ namespace AlquilerAutos.Controllers
             if (!ModelState.IsValid)
                 return View(cliente);
 
-            var response = await _http.PutAsJsonAsync("Actualizar", cliente);
+            var response = await _http.PutAsJsonAsync("ClienteAPI/Actualizar", cliente);
 
             if (response.IsSuccessStatusCode)
             {
@@ -90,7 +93,7 @@ namespace AlquilerAutos.Controllers
         // DELETE
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _http.PutAsync($"Eliminar/{id}", null);
+            var response = await _http.PutAsync("ClienteAPI/Eliminar/{id}", null);
 
             if (response.IsSuccessStatusCode)
                 TempData["mensaje"] = "Cliente eliminado correctamente";

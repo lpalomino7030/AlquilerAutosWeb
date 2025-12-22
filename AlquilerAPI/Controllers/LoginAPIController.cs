@@ -15,56 +15,18 @@ namespace AlquilerAPI.Controllers
             _login = login;
         }
 
-        //[HttpPost("login")]
-        //public IActionResult ValidarLogin([FromBody] Usuarios usuario)
-        //{
-        //    try
-        //    {
-        //        var user = _login.ValidarLogin(usuario.Usuario, usuario.Password);
-        //        if (user != null)
-        //        {
-        //            return Ok(user);
-        //        }
-        //        else
-        //        {
-        //            return Unauthorized("Usuario o contraseña incorrectos");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, "Error interno: " + ex.Message);
-        //    }
-        //}
+        [HttpPost("validar")]
+        public IActionResult ComprobarUsuario([FromBody] Usuarios usr)
+        {
+            var user = _login.ValidarLogin(usr.Usuario, usr.Password);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return BadRequest();
 
-        //[HttpPost("login")]
-        //public IActionResult ValidarLogin([FromBody] Usuarios usuario)
-        //{
-            
-        //    if (usuario.Usuario == "admin" && usuario.Password == "123")
-        //    {
-        //        return Ok(new
-        //        {
-        //            Id = 1,
-        //            Usuario = "admin",
-        //            Rol = "Administrador",
-        //            Estado = true
-        //        });
-        //    }
-        //    else
-        //    {
-        //        var user = _login.ValidarLogin(usuario.Usuario, usuario.Password);
-        //        if (user != null)
-        //        {
-        //            return Ok(user);
-        //        }
-        //        else
-        //        {
-        //            return Unauthorized("Usuario o contraseña incorrectos");
-        //        }
-        //    }
+        }
 
-           // return Unauthorized("Usuario o contraseña incorrectos");
-        //}
 
         [HttpPost("login")]
         public IActionResult ValidarLogin([FromBody] Usuarios usuario)
@@ -82,7 +44,7 @@ namespace AlquilerAPI.Controllers
             }
 
 
-           return Unauthorized("Usuario o contraseña incorrectos");
+            return Unauthorized("Usuario o contraseña incorrectos");
         }
 
 

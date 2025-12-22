@@ -1,7 +1,11 @@
+DROP DATABASE AlquilerAutosDB;
+GO
+
 CREATE DATABASE AlquilerAutosDB;
 GO
 
 USE AlquilerAutosDB;
+
 
 CREATE TABLE Usuarios (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -11,7 +15,6 @@ CREATE TABLE Usuarios (
     Estado BIT NOT NULL
 );
 GO
-INSERT INTO Usuarios(Usuario,Password,Rol,Estado ) VALUES ('LUISP','LOREM123','ADM',1);
 
 ---------------
 CREATE TABLE Clientes (
@@ -772,4 +775,7 @@ GO
 
 
 --SELECT TABLAS -- REVISION
-SELECT * FROM Autos;
+SELECT * FROM Usuarios;
+
+
+EXEC sp_listar_clientes

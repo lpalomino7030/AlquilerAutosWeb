@@ -47,7 +47,7 @@ namespace AlquilerAutos.Controllers
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync("auth/login", content);
+            var response = await client.PostAsync("auth/validar", content);
 
             if (response.IsSuccessStatusCode)
             {

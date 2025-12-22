@@ -16,7 +16,7 @@ namespace AlquilerAPI.Controllers
             _cliente = cliente;
         }
 
-        [HttpGet("Listar")]
+        [HttpGet("obtenerCliente")]
         public IActionResult Listar()
         {
             var lista = _cliente.ListarCliente();

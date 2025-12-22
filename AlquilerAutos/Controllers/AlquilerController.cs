@@ -25,11 +25,9 @@ namespace AlquilerAutos.Controllers
         // FORM CREATE
         public async Task<IActionResult> Create()
         {
-            ViewBag.Clientes = await _http
-                .GetFromJsonAsync<List<Cliente>>("ClienteAPI/activos");
+            ViewBag.Clientes = await _http.GetFromJsonAsync<List<Cliente>>("ClienteAPI/obtenerCliente");
 
-            ViewBag.Autos = await _http
-                .GetFromJsonAsync<List<Auto>>("AutoAPI/disponibles");
+            ViewBag.Autos = await _http.GetFromJsonAsync<List<Auto>>("AutoAPI/disponibles");
 
             return View(new Alquiler());
         }
@@ -39,10 +37,13 @@ namespace AlquilerAutos.Controllers
         public async Task<IActionResult> Create(Alquiler alquiler)
         {
             if (!ModelState.IsValid)
+            {
+                ViewBag.Clientes = await _http.GetFromJsonAsync<List<Cliente>>("ClienteAPI/obtenerCliente");
+                ViewBag.Autos = await _http.GetFromJsonAsync<List<Auto>>("AutoAPI/disponibles");
                 return View(alquiler);
+            }
 
-            var resp = await _http
-                .PostAsJsonAsync("AlquilerAPI", alquiler);
+            var resp = await _http.PostAsJsonAsync("AlquilerAPI", alquiler);
 
             if (resp.IsSuccessStatusCode)
             {
@@ -51,6 +52,11 @@ namespace AlquilerAutos.Controllers
             }
 
             ModelState.AddModelError("", "Error al registrar alquiler");
+
+            ViewBag.Clientes = await _http.GetFromJsonAsync<List<Cliente>>("ClienteAPI/obtenerCliente");
+            ViewBag.Autos = await _http.GetFromJsonAsync<List<Auto>>("AutoAPI/disponibles");
+
+
             return View(alquiler);
         }
 
@@ -70,7 +76,7 @@ namespace AlquilerAutos.Controllers
         public async Task<IActionResult> Reporte()
         {
             var data = await _http
-                .GetFromJsonAsync<List<ReporteAlquilerDTO>>("ReporteAlquilerAPI");
+                .GetFromJsonAsync<List<ReporteAlquilerDTO>>("AlquilerAPI/reporte");
 
             return View(data);
         }
