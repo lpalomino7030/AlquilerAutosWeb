@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.3.11312.210
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlquilerAutosWeb", "AlquilerAutosWeb\AlquilerAutosWeb.csproj", "{6E378757-768C-4FC8-B54E-CC0ED1B6B84D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlquilerAPI", "AlquilerAPI\AlquilerAPI.csproj", "{D9024E25-BFDA-4ADA-9224-1CAD3173FCEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlquilerAutos", "AlquilerAutos\AlquilerAutos.csproj", "{8D23A159-49D9-459E-8103-B18A9081D587}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6E378757-768C-4FC8-B54E-CC0ED1B6B84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E378757-768C-4FC8-B54E-CC0ED1B6B84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E378757-768C-4FC8-B54E-CC0ED1B6B84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E378757-768C-4FC8-B54E-CC0ED1B6B84D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9024E25-BFDA-4ADA-9224-1CAD3173FCEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9024E25-BFDA-4ADA-9224-1CAD3173FCEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9024E25-BFDA-4ADA-9224-1CAD3173FCEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
