@@ -22,7 +22,7 @@ namespace AlquilerAutos.Controllers
 
             if (!string.IsNullOrEmpty(buscar))
             {
-                lista = await _http.GetFromJsonAsync<List<Cliente>>("ClienteAPI/Buscar?texto={buscar}");
+                lista = await _http.GetFromJsonAsync<List<Cliente>>($"ClienteAPI/Buscar?texto={buscar}");
                 ViewBag.Buscar = buscar;
             }
             else
@@ -65,7 +65,7 @@ namespace AlquilerAutos.Controllers
         // EDIT (GET)
         public async Task<IActionResult> Edit(int id)
         {
-            var cliente = await _http.GetFromJsonAsync<Cliente>("ClienteAPI/Obtener/{id}");
+            var cliente = await _http.GetFromJsonAsync<Cliente>($"ClienteAPI/Obtener/{id}");
             if (cliente == null) return NotFound();
 
             return View(cliente);
@@ -93,7 +93,7 @@ namespace AlquilerAutos.Controllers
         // DELETE
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _http.PutAsync("ClienteAPI/Eliminar/{id}", null);
+            var response = await _http.PutAsync($"ClienteAPI/Eliminar/{id}", null);
 
             if (response.IsSuccessStatusCode)
                 TempData["mensaje"] = "Cliente eliminado correctamente";

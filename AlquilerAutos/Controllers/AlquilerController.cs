@@ -16,10 +16,18 @@ namespace AlquilerAutos.Controllers
         // LISTAR
         public async Task<IActionResult> Index()
         {
-            var lista = await _http
-                .GetFromJsonAsync<List<Alquiler>>("AlquilerAPI");
+            try
+            {
+                var lista = await _http
+                    .GetFromJsonAsync<List<Alquiler>>("AlquilerAPI");
 
-            return View(lista);
+                return View(lista);
+            }
+            catch
+            {
+                TempData["mensaje"] = "Error al cargar alquileres";
+                return View(new List<Alquiler>());
+            }
         }
 
         // FORM CREATE
