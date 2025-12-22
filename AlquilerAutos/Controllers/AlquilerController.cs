@@ -1,31 +1,79 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AlquilerAutos.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlquilerAutos.Controllers
 {
     public class AlquilerController : Controller
     {
-        
-        public IActionResult Index()
+
+        private readonly HttpClient _http;
+
+        public AlquilerController(IHttpClientFactory factory)
         {
-            return View();
+            _http = factory.CreateClient("ApiClient");
         }
 
-        public IActionResult Create()
+        // LISTAR
+        public async Task<IActionResult> Index()
         {
+            var lista = await _http
+                .GetFromJsonAsync<List<Alquiler>>("AlquilerAPI");
 
-            return View();
+            return View(lista);
         }
 
-        public IActionResult Reporte()
+        // FORM CREATE
+        public async Task<IActionResult> Create()
         {
-            return View();
+            ViewBag.Clientes = await _http
+                .GetFromJsonAsync<List<Cliente>>("ClienteAPI/activos");
+
+            ViewBag.Autos = await _http
+                .GetFromJsonAsync<List<Auto>>("AutoAPI/disponibles");
+
+            return View(new Alquiler());
         }
 
-        public IActionResult ReportePDF()
+        // CREATE POST
+        [HttpPost]
+        public async Task<IActionResult> Create(Alquiler alquiler)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(alquiler);
+
+            var resp = await _http
+                .PostAsJsonAsync("AlquilerAPI", alquiler);
+
+            if (resp.IsSuccessStatusCode)
+            {
+                TempData["mensaje"] = "Alquiler registrado correctamente";
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError("", "Error al registrar alquiler");
+            return View(alquiler);
         }
 
+        // FINALIZAR
+        public async Task<IActionResult> Finalizar(int id)
+        {
+            var resp = await _http
+                .PutAsync($"AlquilerAPI/finalizar/{id}", null);
+
+            if (resp.IsSuccessStatusCode)
+                TempData["mensaje"] = "Alquiler finalizado";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // REPORTE
+        public async Task<IActionResult> Reporte()
+        {
+            var data = await _http
+                .GetFromJsonAsync<List<ReporteAlquilerDTO>>("ReporteAlquilerAPI");
+
+            return View(data);
+        }
 
 
 

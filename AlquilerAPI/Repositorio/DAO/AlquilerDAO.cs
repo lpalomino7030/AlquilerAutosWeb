@@ -144,7 +144,7 @@ namespace AlquilerAPI.Repositorio.DAO
 
             using (SqlConnection cn = new SqlConnection(cadena))
             {
-                SqlCommand cmd = new SqlCommand("sp_listar_empleados", cn);
+                SqlCommand cmd = new SqlCommand("sp_listar_alquileres_activos", cn);
 
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 

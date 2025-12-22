@@ -16,8 +16,8 @@ namespace AlquilerAPI.Controllers
         }
 
         // GET: api/AutoAPI
-        [HttpGet]
-        public IActionResult ListarTodo()
+        [HttpGet("getAutos")]
+        public IActionResult ListarAutos()
         {
             try
             {

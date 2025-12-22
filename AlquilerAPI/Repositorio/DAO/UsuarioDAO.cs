@@ -75,7 +75,7 @@ namespace AlquilerAPI.Repositorio.DAO
                     {
                         Id = Convert.ToInt32(rd["Id"]),
                         Usuario = rd["Usuario"].ToString(),
-                        Password = rd["Password"].ToString(),
+                        Password = string.Empty,
                         Rol = rd["Rol"].ToString(),
                         Estado = Convert.ToBoolean(rd["Estado"])
                     });

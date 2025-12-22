@@ -21,7 +21,7 @@ namespace AlquilerAPI.Repositorio.DAO
         {
             List<Auto> lista = new List<Auto>();
 
-            using (SqlConnection con = new SqlConnection())
+            using (SqlConnection con = new SqlConnection(cadena))
             {
                 SqlCommand cmd = new SqlCommand("sp_listar_autos_activos", con);
                 cmd.CommandType = CommandType.StoredProcedure;

@@ -26,7 +26,7 @@ namespace AlquilerAutos.Controllers
             else
             {
                 autos = await _http
-                    .GetFromJsonAsync<List<Auto>>("AutoAPI");
+                    .GetFromJsonAsync<List<Auto>>($"AutoAPI/getAutos");
             }
 
             return View(autos);
