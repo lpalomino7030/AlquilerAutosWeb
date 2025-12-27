@@ -122,7 +122,6 @@ namespace AlquilerAPI.Repositorio.DAO
                     cmd.Parameters.AddWithValue("@AutoId", item.AutoId);
                     cmd.Parameters.AddWithValue("@FechaInicio", item.FechaInicio);
                     cmd.Parameters.AddWithValue("@FechaFin", item.FechaFin);
-                    cmd.Parameters.AddWithValue("@Total", item.Total);
                      rpta = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)

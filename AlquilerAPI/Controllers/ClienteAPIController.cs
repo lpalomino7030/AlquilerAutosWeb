@@ -37,6 +37,11 @@ namespace AlquilerAPI.Controllers
             var lista = _cliente.BuscarCliente(texto);
             return Ok(lista);
         }
+        [HttpGet("Total")]
+        public IActionResult Total()
+        {
+            return Ok(new { total = _cliente.TotalClientes() });
+        }
 
         [HttpPost("Guardar")]
         public IActionResult Guardar([FromBody] Cliente cliente)
@@ -66,11 +71,7 @@ namespace AlquilerAPI.Controllers
             return BadRequest("No se pudo eliminar el cliente");
         }
 
-        [HttpGet("Total")]
-        public IActionResult Total()
-        {
-            return Ok(new { total = _cliente.TotalClientes() });
-        }
+
 
 
     }

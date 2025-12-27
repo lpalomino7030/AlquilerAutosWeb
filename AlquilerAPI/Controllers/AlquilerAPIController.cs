@@ -45,40 +45,6 @@ namespace AlquilerAPI.Controllers
         }
 
         // ================================
-        // POST: api/alquiler
-        // ================================
-        [HttpPost]
-        public IActionResult CrearAlquiler([FromBody] Alquiler alquiler)
-        {
-            if (alquiler == null)
-                return BadRequest("Datos inválidos");
-
-            if (alquiler.FechaInicio >= alquiler.FechaFin)
-                return BadRequest("La fecha de inicio debe ser menor a la fecha fin");
-
-            int resultado = _alquiler.InsertarAlquiler(alquiler);
-
-            if (resultado <= 0)
-                return StatusCode(500, "Error al registrar el alquiler");
-
-            return Ok(new { mensaje = "Alquiler registrado correctamente" });
-        }
-
-        // ================================
-        // PUT: api/alquiler/finalizar/5
-        // ================================
-        [HttpPut("finalizar/{id}")]
-        public IActionResult FinalizarAlquiler(int id)
-        {
-            int resultado = _alquiler.Finalizar(id);
-
-            if (resultado == 0)
-                return NotFound("No se pudo finalizar el alquiler");
-
-            return Ok(new { mensaje = "Alquiler finalizado correctamente" });
-        }
-
-        // ================================
         // GET: api/alquiler/activos
         // ================================
         [HttpGet("activos")]
@@ -112,7 +78,39 @@ namespace AlquilerAPI.Controllers
             return Ok(lista);
         }
 
+        // ================================
+        // POST: api/alquiler
+        // ================================
+        [HttpPost]
+        public IActionResult CrearAlquiler([FromBody] Alquiler alquiler)
+        {
+            if (alquiler == null)
+                return BadRequest("Datos inválidos");
 
+            if (alquiler.FechaInicio >= alquiler.FechaFin)
+                return BadRequest("La fecha de inicio debe ser menor a la fecha fin");
+
+            int resultado = _alquiler.InsertarAlquiler(alquiler);
+
+            if (resultado <= 0)
+                return StatusCode(500, "Error al registrar el alquiler");
+
+            return Ok(new { mensaje = "Alquiler registrado correctamente" });
+        }
+
+        // ================================
+        // PUT: api/alquiler/finalizar/5
+        // ================================
+        [HttpPut("finalizar/{id}")]
+        public IActionResult FinalizarAlquiler(int id)
+        {
+            int resultado = _alquiler.Finalizar(id);
+
+            if (resultado == 0)
+                return NotFound("No se pudo finalizar el alquiler");
+
+            return Ok(new { mensaje = "Alquiler finalizado correctamente" });
+        }
 
 
 

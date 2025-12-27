@@ -6,8 +6,10 @@ builder.Services.AddHttpClient("ApiClient", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5019/api/");
 });
+
 builder.Services.AddSession();
 
+Rotativa.AspNetCore.RotativaConfiguration.Setup(builder.Environment.WebRootPath, "Rotativa");
 
 var app = builder.Build();
 

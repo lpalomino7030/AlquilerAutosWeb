@@ -1,5 +1,6 @@
 ﻿using AlquilerAutos.Models;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 
 namespace AlquilerAutos.Controllers
 {
@@ -40,6 +41,28 @@ namespace AlquilerAutos.Controllers
             return View(new Alquiler());
         }
 
+
+        // REPORTE
+        public async Task<IActionResult> Reporte()
+        {
+            var data = await _http
+                .GetFromJsonAsync<List<ReporteAlquilerDTO>>("AlquilerAPI/reporte");
+
+            return View(data);
+        }
+
+        public async Task<IActionResult> ReportePDF()
+        {
+            var data = await _http
+                .GetFromJsonAsync<List<ReporteAlquilerDTO>>("AlquilerAPI/reporte");
+
+            return new ViewAsPdf("ReportePDF", data)
+            {
+                FileName = "ReporteAlquiler.pdf"
+            };
+        }
+
+
         // CREATE POST
         [HttpPost]
         public async Task<IActionResult> Create(Alquiler alquiler)
@@ -79,17 +102,6 @@ namespace AlquilerAutos.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        // REPORTE
-        public async Task<IActionResult> Reporte()
-        {
-            var data = await _http
-                .GetFromJsonAsync<List<ReporteAlquilerDTO>>("AlquilerAPI/reporte");
-
-            return View(data);
-        }
-
-
 
 
 

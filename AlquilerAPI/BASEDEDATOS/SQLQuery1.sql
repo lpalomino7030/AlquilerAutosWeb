@@ -107,16 +107,53 @@ END
 GO
 
 ----------------------------------------
-CREATE PROCEDURE sp_insertar_alquiler
+CREATE OR ALTER PROCEDURE sp_insertar_alquiler
     @ClienteId INT,
     @AutoId INT,
     @FechaInicio DATE,
-    @FechaFin DATE,
-    @Total DECIMAL(10,2)
+    @FechaFin DATE
 AS
 BEGIN
     SET NOCOUNT ON;
 
+    DECLARE @PrecioDia DECIMAL(10,2);
+    DECLARE @Dias INT;
+    DECLARE @Total DECIMAL(10,2);
+
+    -- Validar fechas
+    IF (@FechaInicio >= @FechaFin)
+    BEGIN
+        RAISERROR('La fecha de inicio debe ser menor que la fecha fin.', 16, 1);
+        RETURN;
+    END
+
+    -- Obtener precio del auto (solo si está disponible)
+    SELECT 
+        @PrecioDia = PrecioDia
+    FROM Autos
+    WHERE Id = @AutoId
+      AND Estado = 1
+      AND EstadoAuto = 'Disponible';
+
+    IF (@PrecioDia IS NULL)
+    BEGIN
+        RAISERROR('El auto no existe o no está disponible.', 16, 1);
+        RETURN;
+    END
+
+    -- Calcular días
+    SET @Dias = DATEDIFF(DAY, @FechaInicio, @FechaFin);
+
+    IF (@Dias <= 0)
+    BEGIN
+        RAISERROR('Cantidad de días inválida.', 16, 1);
+        RETURN;
+    END
+
+    -- Calcular total
+    SET @Total = @Dias * @PrecioDia;
+
+    -- Insertar alquiler
     INSERT INTO Alquileres
     (
         ClienteId,
@@ -137,8 +174,14 @@ BEGIN
         'Activo',
         1
     );
+
+    -- Marcar auto como alquilado
+    UPDATE Autos
+    SET EstadoAuto = 'Alquilado'
+    WHERE Id = @AutoId;
 END;
 GO
+
 
 --------------------------------------------
 
@@ -777,7 +820,8 @@ GO
 
 
 --SELECT TABLAS -- REVISION
-SELECT * FROM Usuarios;
+SELECT * FROM Alquileres;
 
 
 EXEC sp_listar_clientes
+

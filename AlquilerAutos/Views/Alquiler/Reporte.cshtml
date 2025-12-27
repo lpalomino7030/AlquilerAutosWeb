@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model List<dynamic>
+@model List<AlquilerAutos.Models.ReporteAlquilerDTO>
 
 <a asp-action="ReportePDF" class="btn btn-danger mb-3">
     Exportar a PDF
@@ -34,7 +34,7 @@
                 <td>@a.FechaInicio.ToShortDateString()</td>
                 <td>@a.FechaFin.ToShortDateString()</td>
                 <td>S/. @a.Total</td>
-                <td>@a.Estado</td>
+                <td>@a.EstadoAlquiler</td>
             </tr>
         }
     </tbody>
